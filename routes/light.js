@@ -13,12 +13,28 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-router.get('/getlight', function(req,res){
+// get all lights data
+router.get('/getall', function(req,res){
     hue = Hue('http://localhost:8000/api/newdeveloper');
-    // hue = Hue('http://192.168.x.x/api/your_username');
     hue.lights().list(function(error, lights){
     	console.log(lights);
     });
+  });  
+
+// switching light on
+router.get('/on/:light_id', function(req,res){
+	var light_id = req.params.thermo_id;
+    hue = Hue('http://localhost:8000/api/newdeveloper');
+    hue.lights(light_id).on();
+    console.log("light:" + light_id + " switched on!!")
+  }); 
+
+// switching light off
+router.get('/off/:light_id', function(req,res){
+	var light_id = req.params.thermo_id;
+    hue = Hue('http://localhost:8000/api/newdeveloper');
+    hue.lights(light_id).off();
+    console.log("light:" + light_id + " switched off!!")
   });  
 module.exports = router;
 
